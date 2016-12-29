@@ -37,10 +37,6 @@ chat.installHandlers(server, {prefix:'/chat'});
 server.listen(9999, '127.0.0.1');
 
 
-
-
-// app.set('view engine', 'ejs');
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -51,12 +47,5 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(__dirname + '/public'));
-
-// var assignment = require('./assignment/app.js');
-// assignment(app);
-
-// require('./lectures/app.js')(app);
-// require('./experiments/hello.js')(app);
-// require('./wam/app')(app);
 
 app.listen(3000);

@@ -5,36 +5,40 @@ var cookieParser = require('cookie-parser');
 var session      = require('express-session');
 var passport = require('passport');
 
-
+app.set('port', 9999);
 
 var http = require('http');
 var sockjs = require('sockjs');
 
 var connections = [];
 
-// var chat = sockjs.createServer();
-// chat.on('connection', function(conn) {
-//     connections.push(conn);
-//     var number = connections.length;
-//     conn.write("Welcome, User " + number);
-//     conn.on('data', function(message) {
-//
-//         // TODO: database insert/update/select
-//
-//         for (var ii=0; ii < connections.length; ii++) {
-//             connections[ii].write("User " + number + " says: " + message);
-//         }
-//     });
-//     conn.on('close', function() {
-//         for (var ii=0; ii < connections.length; ii++) {
-//             connections[ii].write("User " + number + " has disconnected");
-//         }
-//     });
-// });
-//
+var chat = sockjs.createServer();
+chat.on('connection', function(conn) {
+    connections.push(conn);
+    var number = connections.length;
+    conn.write("Welcome, User " + number);
+    conn.on('data', function(message) {
+
+        // TODO: database insert/update/select
+
+        for (var ii=0; ii < connections.length; ii++) {
+            connections[ii].write("User " + number + " says: " + message);
+        }
+    });
+    conn.on('close', function() {
+        for (var ii=0; ii < connections.length; ii++) {
+            connections[ii].write("User " + number + " has disconnected");
+        }
+    });
+});
+
 // var server = http.createServer();
 // chat.installHandlers(server, {prefix:'/chat'});
 // server.listen(9999, '127.0.0.1');
+var server = http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+});
+chat.installHandlers(server, {prefix:'/chat'});
 
 
 app.use(bodyParser.json());

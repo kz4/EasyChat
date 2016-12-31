@@ -32,13 +32,14 @@ chat.on('connection', function(conn) {
     });
 });
 
-// var server = http.createServer();
-// chat.installHandlers(server, {prefix:'/chat'});
-// server.listen(9999, '127.0.0.1');
-var server = http.createServer(app).listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
-});
+var server = http.createServer();
 chat.installHandlers(server, {prefix:'/chat'});
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+server.listen(9999, ipaddress);
+// var server = http.createServer(app).listen(app.get('port'), function(){
+//     console.log('Express server listening on port ' + app.get('port'));
+// });
+// chat.installHandlers(server, {prefix:'/chat'});
 
 
 app.use(bodyParser.json());
@@ -52,7 +53,6 @@ app.use(passport.session());
 
 app.use(express.static(__dirname + '/public'));
 
-var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port      = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 // app.listen(port, ipaddress);

@@ -7,6 +7,7 @@ var passport = require('passport');
 
 app.set('port', 9999);
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var port      = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 var http = require('http');
 var sockjs = require('sockjs');
@@ -36,8 +37,8 @@ chat.on('connection', function(conn) {
 // var server = http.createServer();
 // chat.installHandlers(server, {prefix:'/chat'});
 // server.listen(9999, ipaddress);
-var server = http.createServer(app).listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
+var server = http.createServer(app).listen(app.get('port'), ipaddress, function(){
+    console.log('Express server listening on port ' + app.get('port') + ', ip: ' + ipaddress);
 });
 chat.installHandlers(server, {prefix:'/chat'});
 
@@ -53,7 +54,6 @@ app.use(passport.session());
 
 app.use(express.static(__dirname + '/public'));
 
-var port      = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 // app.listen(port, ipaddress);
 app.listen(port, ipaddress, function () {

@@ -38,7 +38,7 @@ chat.on('connection', function(conn) {
 // chat.installHandlers(server, {prefix:'/chat'});
 // server.listen(9999, ipaddress);
 var server = http.createServer(app).listen(app.get('port'), ipaddress, function(){
-    console.log('Express server listening on port ' + app.get('port') + ', ip: ' + ipaddress);
+    console.log('Http server listening on port ' + app.get('port') + ', ip: ' + ipaddress);
 });
 chat.installHandlers(server, {prefix:'/chat'});
 
@@ -54,8 +54,11 @@ app.use(passport.session());
 
 app.use(express.static(__dirname + '/public'));
 
+app.get("/api/openshiftip", function(req, res) {
+    res.json({result: ipaddress});
+});
 
 // app.listen(port, ipaddress);
 app.listen(port, ipaddress, function () {
-    console.log( "Listening on " + ipaddress + ", port " + port )
+    console.log( "Express server listening on " + ipaddress + ", port " + port )
 });

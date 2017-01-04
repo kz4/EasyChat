@@ -1,12 +1,16 @@
 <html ng-app="ChatApp">
 <head>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+    <script src="cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 
     <script>
         // Hardcode OpenShift IP to test if it's working
-        var sock = new SockJS('http://127.5.69.129:9999/chat');
+        var sock = null;
+        sock = new SockJS('http://127.5.69.129:9999/chat');
+        if (sock === null) {
+            Console.log("Client socket is not created");
+        }
 
         angular.module('ChatApp', [])
                 .controller('ChatCtrl', ChatCtrl);

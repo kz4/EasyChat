@@ -5,7 +5,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 
     <script>
-        var sock = new SockJS('http://127.0.0.1:9999/chat');
+        // Hardcode OpenShift IP to test if it's working
+        var sock = new SockJS('http://127.5.69.129:9999/chat');
 
         angular.module('ChatApp', [])
                 .controller('ChatCtrl', ChatCtrl);

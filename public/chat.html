@@ -7,8 +7,9 @@
     <script>
         // Hardcode OpenShift IP to test if it's working
         var sock = null;
-        sock = new SockJS('http://127.5.69.129:9999/chat');
+//        sock = new SockJS('http://127.5.69.129:8000/chat');
 //        sock = new SockJS('http://127.0.0.1:9999/chat');
+        sock = new SockJS('http://easychat-kz4.rhcloud.com:8000/chat');
         if (sock === null) {
             console.log("Client socket is not created");
         } else {

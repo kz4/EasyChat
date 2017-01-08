@@ -6,9 +6,10 @@ var session      = require('express-session');
 var passport = require('passport');
 
 // app.set('port', 9999);
-app.set('port', 8000);
+// app.set('port', 8000);
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port      = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+app.set('port', port);
 
 var http = require('http');
 var sockjs = require('sockjs');
@@ -44,22 +45,22 @@ var server = http.createServer(app).listen(app.get('port'), ipaddress, function(
 chat.installHandlers(server, {prefix:'/chat'});
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(cookieParser());
-app.use(session({ secret: "thesecret" }));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+//
+// app.use(cookieParser());
+// app.use(session({ secret: "thesecret" }));
+//
+// app.use(passport.initialize());
+// app.use(passport.session());
+//
 app.use(express.static(__dirname + '/public'));
-
-app.get("/api/openshiftip", function(req, res) {
-    res.json({result: ipaddress});
-});
-
-// app.listen(port, ipaddress);
-app.listen(port, ipaddress, function () {
-    console.log( "Express server listening on " + ipaddress + ", port " + port )
-});
+//
+// app.get("/api/openshiftip", function(req, res) {
+//     res.json({result: ipaddress});
+// });
+//
+// // app.listen(port, ipaddress);
+// app.listen(port, ipaddress, function () {
+//     console.log( "Express server listening on " + ipaddress + ", port " + port )
+// });

@@ -9,12 +9,18 @@
         var sock = null;
 //        sock = new SockJS('http://127.5.69.129:8000/chat');
 //        sock = new SockJS('http://127.0.0.1:9999/chat');
-        sock = new SockJS('http://easychat-kz4.rhcloud.com:8000/chat');
-        if (sock === null) {
-            console.log("Client socket is not created");
+
+        if (window.location.hostname === 'localhost') {
+            console.log('hrerer');
+            sock = new SockJS('http://127.0.0.1:3000/chat');
         } else {
-            console.log("Client socket is created, cannot confirm if it's working or not though");
+            sock = new SockJS('http://easychat-kz4.rhcloud.com:8000/chat');
         }
+//        if (sock === null) {
+//            console.log("Client socket is not created");
+//        } else {
+//            console.log("Client socket is created, cannot confirm if it's working or not though");
+//        }
 
         angular.module('ChatApp', [])
                 .controller('ChatCtrl', ChatCtrl);

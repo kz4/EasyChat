@@ -42,7 +42,7 @@ chat.on('connection', function(conn) {
 var server = http.createServer(app).listen(app.get('port'), ipaddress, function(){
     console.log('Http server listening on port ' + app.get('port') + ', ip: ' + ipaddress);
 });
-chat.installHandlers(server, {prefix:'/chat'});
+chat.installHandlers(server, {prefix:'/views/chat/chat.view.client'});
 
 
 // app.use(bodyParser.json());

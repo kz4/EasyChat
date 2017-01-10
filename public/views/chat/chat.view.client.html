@@ -12,15 +12,16 @@
 
         if (window.location.hostname === 'localhost') {
             console.log('hrerer');
-            sock = new SockJS('http://127.0.0.1:3000/chat');
+            sock = new SockJS('http://127.0.0.1:3000/views/chat/chat.view.client');
         } else {
-            sock = new SockJS('http://easychat-kz4.rhcloud.com:8000/chat');
+            sock = new SockJS('http://easychat-kz4.rhcloud.com:8000/views/chat/chat.view.client');
         }
 //        if (sock === null) {
 //            console.log("Client socket is not created");
 //        } else {
 //            console.log("Client socket is created, cannot confirm if it's working or not though");
 //        }
+        console.log("Client socket is created");
 
         angular.module('ChatApp', [])
                 .controller('ChatCtrl', ChatCtrl);

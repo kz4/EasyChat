@@ -1,54 +1,4 @@
-<html ng-app="ChatApp">
-<head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-
-    <script>
-        // Hardcode OpenShift IP to test if it's working
-        var sock = null;
-//        sock = new SockJS('http://127.5.69.129:8000/chat');
-//        sock = new SockJS('http://127.0.0.1:9999/chat');
-
-        if (window.location.hostname === 'localhost') {
-            console.log('hrerer');
-            sock = new SockJS('http://127.0.0.1:3000/views/chat/chat.view.client');
-        } else {
-            sock = new SockJS('http://easychat-kz4.rhcloud.com:8000/views/chat/chat.view.client');
-        }
-//        if (sock === null) {
-//            console.log("Client socket is not created");
-//        } else {
-//            console.log("Client socket is created, cannot confirm if it's working or not though");
-//        }
-        console.log("Client socket is created");
-
-        angular.module('ChatApp', [])
-                .controller('ChatCtrl', ChatCtrl);
-
-        function ChatCtrl($scope) {
-
-            var vm = this;
-            vm.messages = [];
-            console.log("At client messages initialization");
-
-            vm.sendMessage = function() {
-                sock.send(vm.messageText);
-                vm.messageText = "";
-            };
-
-            sock.onmessage = function(e) {
-                vm.messages.push(e.data);
-                $scope.$apply();
-            };
-        }
-    </script>
-
-</head>
-
-<body>
-
-<div ng-controller="ChatCtrl as model" class="container">
+<div class="container">
 
     <div ng-repeat="message in model.messages">
         {{message}}
@@ -68,6 +18,3 @@
 
     </form>
 </div>
-
-</body>
-</html>

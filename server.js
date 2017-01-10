@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var session      = require('express-session');
 var passport = require('passport');
 
-// app.set('port', 9999);
-// app.set('port', 8000);
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port      = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 app.set('port', port);
@@ -36,9 +34,6 @@ chat.on('connection', function(conn) {
     });
 });
 
-// var server = http.createServer();
-// chat.installHandlers(server, {prefix:'/chat'});
-// server.listen(9999, ipaddress);
 var server = http.createServer(app).listen(app.get('port'), ipaddress, function(){
     console.log('Http server listening on port ' + app.get('port') + ', ip: ' + ipaddress);
 });

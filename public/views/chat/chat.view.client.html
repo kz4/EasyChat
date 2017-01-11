@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div ng-repeat="message in model.messages">
+    <div ng-repeat="message in model.messages track by $index">
         {{message}}
     </div>
 

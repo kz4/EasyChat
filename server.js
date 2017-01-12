@@ -34,22 +34,39 @@ chat.on('connection', function(conn) {
     });
 });
 
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+app.use(session({ secret: "thesecret" }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(express.static(__dirname + '/public'));
+
+var mongoose = require('mongoose');
+var connectionString = 'mongodb://127.0.0.1:27017/easychat';
+
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+    connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+        process.env.OPENSHIFT_APP_NAME;
+}
+
+mongoose.connect(connectionString);
+
+var easychat = require("./easychat/app.js")(app);
+
+
 var server = http.createServer(app).listen(app.get('port'), ipaddress, function(){
     console.log('Http server listening on port ' + app.get('port') + ', ip: ' + ipaddress);
 });
 chat.installHandlers(server, {prefix:'/views/chat/chat.view.client'});
-
-
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-//
-// app.use(cookieParser());
-// app.use(session({ secret: "thesecret" }));
-//
-// app.use(passport.initialize());
-// app.use(passport.session());
-//
-app.use(express.static(__dirname + '/public'));
 //
 // app.get("/api/openshiftip", function(req, res) {
 //     res.json({result: ipaddress});

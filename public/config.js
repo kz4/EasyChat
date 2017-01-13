@@ -10,6 +10,11 @@
                 controller: "LoginController",
                 controllerAs: "model"
             })
+            .when("/login", {
+                templateUrl: "views/user/login.view.client.html",
+                controller: "LoginController",
+                controllerAs: "model"
+            })
             .when("/chat", {
                 templateUrl: "views/chat/chat.view.client.html",
                 controller: "ChatController",

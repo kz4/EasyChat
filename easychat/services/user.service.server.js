@@ -2,6 +2,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var WeiboStrategy = require('passport-weibo').Strategy;
 var bcrypt = require("bcrypt-nodejs");
 
 module.exports = function (app, models) {
@@ -21,6 +22,13 @@ module.exports = function (app, models) {
             failureRedirect: '/assignment//#/login'
         }));
 
+    app.get('/auth/weibo', passport.authenticate('weibo'));
+    app.get('/auth/weibo/callback',
+        passport.authenticate('weibo', {
+            successRedirect: '/#/chat',
+            failureRedirect: '/assignment//#/login'
+        }));
+
     app.post("/api/logout", logout);
     app.get("/api/loggedIn", loggedIn);
     app.post('/api/register', register);
@@ -35,7 +43,17 @@ module.exports = function (app, models) {
         callbackURL  : process.env.FACEBOOK_CALLBACK_URL
     };
 
+    var weiboConfig = {
+        clientID     : process.env.WEIBO_CLIENT_ID,
+        clientSecret : process.env.WEIBO_CLIENT_SECRET,
+        callbackUrl  : process.env.WEIBO_CALLBACK_URL
+    };
+    console.log(weiboConfig.clientID);
+    console.log(weiboConfig.clientSecret);
+    console.log(weiboConfig.callbackUrl);
+
     passport.use('facebook', new FacebookStrategy(facebookConfig, facebookLogin));
+    passport.use('weibo', new WeiboStrategy(weiboConfig, weiboLogin));
 
     function register(req, res) {
         var username = req.body.username;
@@ -134,6 +152,37 @@ module.exports = function (app, models) {
                         };
                         userModel
                             .createUser(facebookUser)
+                            .then(
+                                function (user) {
+                                    done(null, user);
+                                },
+                                function (error) {
+
+                                }
+                            )
+                    }
+                }
+            )
+    }
+
+    function weiboLogin(token, refreshToken, profile, done) {
+        userModel
+            .findUserByFacebookId(profile.id)
+            .then(
+                function (weiboUser) {
+                    if (weiboUser) {
+                        return done(null, weiboUser);
+                    } else {
+                        weiboUser = {
+                            username: profile.displayName.replace(/ /g, ''),
+                            weibo: {
+                                token: token,
+                                id: profile.id,
+                                displayname: profile.displayName
+                            }
+                        };
+                        userModel
+                            .createUser(weiboUser)
                             .then(
                                 function (user) {
                                     done(null, user);

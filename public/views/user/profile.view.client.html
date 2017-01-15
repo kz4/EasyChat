@@ -1,0 +1,63 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="">Profile</a>
+            <p class="navbar-text pull-right">
+                <a ng-click="model.updateUser(model.user)" class="navbar-link">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </a>
+            </p>
+        </div>
+    </div>
+</nav>
+
+<div class="container padding-top-70">
+
+    <div ng-if="model.error" class="alert alert-danger">
+        {{model.error}}
+    </div>
+
+    <div ng-if="model.inf" class="alert alert-success">
+        {{model.inf}}
+    </div>
+
+    <div class="form-group">
+        <Label>Username</Label>
+        <input ng-model="model.user.username"
+               class="form-control" type="text" placeholder="alice">
+    </div>
+    <div class="form-group">
+        <Label>Email</Label>
+        <input ng-model="model.user.email"
+               class="form-control" type="email" placeholder="alice@wonderland.com">
+    </div>
+    <div class="form-group">
+        <Label>First Name</Label>
+        <input ng-model="model.user.firstName"
+               class="form-control" type="text" placeholder="Alice">
+    </div>
+    <div class="form-group">
+        <Label>Last Name</Label>
+        <input ng-model="model.user.lastName"
+               class="form-control" type="text" placeholder="Wonderland">
+    </div>
+    <!--<a class="btn btn-primary btn-block" href="#/user/{{model.user._id}}/website">Websites</a>-->
+    <a class="btn btn-primary btn-block" href="#/chat">Chat</a>
+    <a class="btn btn-danger btn-block" ng-click="model.logout()">Logout</a>
+    <a class="btn btn-danger btn-block" ng-click="model.deleteUser(model.user._id)">Unregister</a>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <div class="row navbar-text">
+            <div class="col-xs-3 text-center">
+            </div>
+            <div class="col-xs-3 text-center">
+            </div>
+            <div class="col-xs-3 text-center">
+            </div>
+            <div class="col-xs-3 text-center">
+            </div>
+        </div>
+    </div>
+</nav>

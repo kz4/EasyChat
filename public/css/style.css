@@ -1,3 +1,11 @@
 .padding-top-70 {
     padding-top: 70px;
 }
+
+p.navbar-text.pull-right {
+    margin-right: 15px;
+}
+
+p.navbar-text.pull-left {
+    margin-left: 15px;
+}

@@ -13,12 +13,17 @@ module.exports = function () {
         deleteUser: deleteUser,
         populateWebsite: populateWebsite,
         spliceWebsite: spliceWebsite,
-        findUserByFacebookId: findUserByFacebookId
+        findUserByFacebookId: findUserByFacebookId,
+        findUserByGoogleId: findUserByGoogleId
     };
     return api;
 
     function findUserByFacebookId(id) {
         return User.findOne({"facebook.id": id});
+    }
+
+    function findUserByGoogleId(id) {
+        return User.findOne({"google.id": id});
     }
 
     function spliceWebsite(userId, websiteId) {

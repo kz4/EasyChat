@@ -3,6 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var WeiboStrategy = require('passport-weibo').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var bcrypt = require("bcrypt-nodejs");
 
 module.exports = function (app, models) {
@@ -15,18 +16,26 @@ module.exports = function (app, models) {
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
     app.post('/api/login', passport.authenticate('assignmentLogin'), login);
+    
     app.get('/auth/facebook', passport.authenticate('facebook'));
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
             successRedirect: '/#/chat',
-            failureRedirect: '/assignment//#/login'
+            failureRedirect: '/#/login'
         }));
 
     app.get('/auth/weibo', passport.authenticate('weibo'));
     app.get('/auth/weibo/callback',
         passport.authenticate('weibo', {
             successRedirect: '/#/chat',
-            failureRedirect: '/assignment//#/login'
+            failureRedirect: '/#/login'
+        }));
+
+    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {
+            successRedirect: '/#/chat',
+            failureRedirect: '/#/login'
         }));
 
     app.post("/api/logout", logout);
@@ -46,14 +55,18 @@ module.exports = function (app, models) {
     var weiboConfig = {
         clientID     : process.env.WEIBO_CLIENT_ID,
         clientSecret : process.env.WEIBO_CLIENT_SECRET,
-        callbackUrl  : process.env.WEIBO_CALLBACK_URL
+        callbackURL  : process.env.WEIBO_CALLBACK_URL
     };
-    console.log(weiboConfig.clientID);
-    console.log(weiboConfig.clientSecret);
-    console.log(weiboConfig.callbackUrl);
+
+    var googleConfig = {
+        clientID     : process.env.GOOGLE_EASYCHAT_CLIENT_ID,
+        clientSecret : process.env.GOOGLE_EASYCHAT_CLIENT_SECRET,
+        callbackURL  : process.env.GOOGLE_CALLBACK_URL
+    };
 
     passport.use('facebook', new FacebookStrategy(facebookConfig, facebookLogin));
     passport.use('weibo', new WeiboStrategy(weiboConfig, weiboLogin));
+    passport.use('google', new GoogleStrategy(googleConfig, googleLogin));
 
     function register(req, res) {
         var username = req.body.username;
@@ -183,6 +196,40 @@ module.exports = function (app, models) {
                         };
                         userModel
                             .createUser(weiboUser)
+                            .then(
+                                function (user) {
+                                    done(null, user);
+                                },
+                                function (error) {
+
+                                }
+                            )
+                    }
+                }
+            )
+    }
+
+    function googleLogin(token, refreshToken, profile, done) {
+        userModel
+            .findUserByGoogleId(profile.id)
+            .then(
+                function (googleUser) {
+                    if (googleUser) {
+                        return done(null, googleUser);
+                    } else {
+                        googleUser = {
+                            username: profile.displayName.replace(/ /g, ''),
+                            email: profile.emails[0].value,
+                            firstName: profile.name.givenName,
+                            lastName:  profile.name.familyName,
+                            google: {
+                                token: token,
+                                id: profile.id,
+                                displayname: profile.displayName
+                            }
+                        };
+                        userModel
+                            .createUser(googleUser)
                             .then(
                                 function (user) {
                                     done(null, user);

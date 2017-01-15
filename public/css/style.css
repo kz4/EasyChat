@@ -9,3 +9,14 @@ p.navbar-text.pull-right {
 p.navbar-text.pull-left {
     margin-left: 15px;
 }
+
+.login-btn, .register-btn {
+    color: #ffffff;
+    background-color: #e04a32;
+    border-color: #e04a32;
+}
+.login-btn:hover, .register-btn:hover {
+    color: #3d1a1b;
+    background-color: #dc143c;
+    border-color: #dc143c;
+}

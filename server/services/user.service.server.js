@@ -18,11 +18,14 @@ module.exports = function (app, models) {
     app.post('/api/login', passport.authenticate('assignmentLogin'), login);
     
     app.get('/auth/facebook', passport.authenticate('facebook'));
+
+    var redirUrls = {
+        successRedirect: '/#!/user',
+        failureRedirect: '/#!/login'
+    };
+
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-            successRedirect: '/#/chat',
-            failureRedirect: '/#/login'
-        }));
+        passport.authenticate('facebook', redirUrls));
 
     app.get('/auth/weibo', passport.authenticate('weibo'));
     app.get('/auth/weibo/callback',
@@ -153,6 +156,7 @@ module.exports = function (app, models) {
             .then(
                 function (facebookUser) {
                     if (facebookUser) {
+                        redirUrls.successRedirect += '/' + facebookUser._id.toString();
                         return done(null, facebookUser);
                     } else {
                         facebookUser = {
@@ -167,6 +171,7 @@ module.exports = function (app, models) {
                             .createUser(facebookUser)
                             .then(
                                 function (user) {
+                                    redirUrls.successRedirect += '/' + user._id.toString();
                                     done(null, user);
                                 },
                                 function (error) {

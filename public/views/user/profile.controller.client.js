@@ -2,7 +2,7 @@
     angular
         .module("EasyChat")
         .controller("ProfileController", ProfileController);
-    function ProfileController($location, $rootScope, $routeParams, UserService) {
+    function ProfileController($location, $rootScope, UserService) {
         var vm = this;
         vm.updateUser = updateUser;
         vm.deleteUser = deleteUser;

@@ -1,10 +1,10 @@
 {
-  "name": "web-dev",
+  "name": "EasyChat",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/server.js --websocket-port=$OPENSHIFT_NODEJS_PORT --log-level=1"
   },
   "author": "",
   "license": "ISC",

@@ -1,0 +1,22 @@
+{
+  "name": "EasyChat",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "gxless <hitgxless@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/kz4/EasyChat",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router": "^0.3.2",
+    "angular": "^1.6.1"
+  }
+}

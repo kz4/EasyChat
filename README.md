@@ -6,10 +6,8 @@
 ## Setup
 1. ```npm install```
 2. If bower is not installed, install bower with ```sudo npm install -g bower```
-3. ```bower install``` to install the bower components, if you get an error:
-```Error: EACCES: permission denied, open '/Users/YOURUSER/.config/configstore/bower-github.json'
+3. ```bower install``` to install the bower components, if you get an error: Error: EACCES: permission denied, open '/Users/YOURUSER/.config/configstore/bower-github.json'
    You don't have access to this file.
-```
 Fix it with:
 ```
 sudo chown -R $USER:$GROUP ~/.npm

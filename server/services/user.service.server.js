@@ -16,28 +16,24 @@ module.exports = function (app, models) {
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
     app.post('/api/login', passport.authenticate('assignmentLogin'), login);
-    
+
     app.get('/auth/facebook', passport.authenticate('facebook'));
-
-    var redirUrls = {
-        successRedirect: '/#!/user',
-        failureRedirect: '/#!/login'
-    };
-
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', redirUrls));
+        passport.authenticate('facebook', {failureRedirect: '/#!/login'}),
+        function (req, res) {
+            var userId = req.user._id.toString();
+            res.redirect('/#!/user/' + userId);
+        });
 
     app.get('/auth/weibo', passport.authenticate('weibo'));
     app.get('/auth/weibo/callback',
         passport.authenticate('weibo', {
-            successRedirect: '/#/chat',
             failureRedirect: '/#/login'
         }));
 
-    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect: '/#/chat',
             failureRedirect: '/#/login'
         }));
 
@@ -50,21 +46,21 @@ module.exports = function (app, models) {
     passport.deserializeUser(deserializeUser);
 
     var facebookConfig = {
-        clientID     : process.env.FB_EASYCHAT_CLIENT_ID,
-        clientSecret : process.env.FB_EASYCHAT_CLIENT_SECRET,
-        callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+        clientID: process.env.FB_EASYCHAT_CLIENT_ID,
+        clientSecret: process.env.FB_EASYCHAT_CLIENT_SECRET,
+        callbackURL: process.env.FACEBOOK_CALLBACK_URL
     };
 
     var weiboConfig = {
-        clientID     : process.env.WEIBO_CLIENT_ID,
-        clientSecret : process.env.WEIBO_CLIENT_SECRET,
-        callbackURL  : process.env.WEIBO_CALLBACK_URL
+        clientID: process.env.WEIBO_CLIENT_ID,
+        clientSecret: process.env.WEIBO_CLIENT_SECRET,
+        callbackURL: process.env.WEIBO_CALLBACK_URL
     };
 
     var googleConfig = {
-        clientID     : process.env.GOOGLE_EASYCHAT_CLIENT_ID,
-        clientSecret : process.env.GOOGLE_EASYCHAT_CLIENT_SECRET,
-        callbackURL  : process.env.GOOGLE_CALLBACK_URL
+        clientID: process.env.GOOGLE_EASYCHAT_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_EASYCHAT_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL
     };
 
     passport.use('facebook', new FacebookStrategy(facebookConfig, facebookLogin));
@@ -132,15 +128,17 @@ module.exports = function (app, models) {
         userModel
             .findUserByUsername(username)
             .then(
-                function(user) {
-                    if(user && bcrypt.compareSync(password, user.password)) {
+                function (user) {
+                    if (user && bcrypt.compareSync(password, user.password)) {
                         return done(null, user);
                     } else {
                         return done(null, false);
                     }
                 },
-                function(err) {
-                    if (err) { return done(err); }
+                function (err) {
+                    if (err) {
+                        return done(err);
+                    }
                 }
             );
     }
@@ -156,7 +154,6 @@ module.exports = function (app, models) {
             .then(
                 function (facebookUser) {
                     if (facebookUser) {
-                        redirUrls.successRedirect += '/' + facebookUser._id.toString();
                         return done(null, facebookUser);
                     } else {
                         facebookUser = {
@@ -171,7 +168,6 @@ module.exports = function (app, models) {
                             .createUser(facebookUser)
                             .then(
                                 function (user) {
-                                    redirUrls.successRedirect += '/' + user._id.toString();
                                     done(null, user);
                                 },
                                 function (error) {
@@ -226,7 +222,7 @@ module.exports = function (app, models) {
                             username: profile.displayName.replace(/ /g, ''),
                             email: profile.emails[0].value,
                             firstName: profile.name.givenName,
-                            lastName:  profile.name.familyName,
+                            lastName: profile.name.familyName,
                             google: {
                                 token: token,
                                 id: profile.id,
@@ -256,10 +252,10 @@ module.exports = function (app, models) {
         userModel
             .findUserById(user._id)
             .then(
-                function(user){
+                function (user) {
                     done(null, user);
                 },
-                function(err){
+                function (err) {
                     done(err, null);
                 }
             );

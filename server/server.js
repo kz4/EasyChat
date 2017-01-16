@@ -48,6 +48,7 @@ console.log('__dirname', __dirname);
 app.use(express.static(__dirname + '/../public'));
 
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 var connectionString = 'mongodb://127.0.0.1:27017/easychat';
 
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {

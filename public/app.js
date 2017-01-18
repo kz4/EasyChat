@@ -1,3 +1,3 @@
 (function () {
-    angular.module('EasyChat', ['ui.router']);
+    angular.module('EasyChat', ['ui.router', 'ngMaterial']);
 })();

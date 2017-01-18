@@ -19,15 +19,11 @@
                 controller: "RegisterController",
                 controllerAs: "model"
             })
-            // .state("user", {
-            //     url: '/user/',
-            //     templateUrl: "views/user/profile.view.client.html",
-            //     controller: "ProfileController",
-            //     controllerAs: "model",
-            //     resolve: {
-            //         loggedIn: checkLoggedIn
-            //     }
-            // })
+            .state('header', {
+                templateUrl: 'views/header/header.view.html',
+                controller: 'HeaderController',
+                controllerAs: 'model'
+            })
             .state('user', {
                 url: '/user/:userId?category',
                 templateUrl: "views/user/profile.view.client.html",

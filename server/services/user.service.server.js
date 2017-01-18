@@ -27,15 +27,22 @@ module.exports = function (app, models) {
 
     app.get('/auth/weibo', passport.authenticate('weibo'));
     app.get('/auth/weibo/callback',
-        passport.authenticate('weibo', {
-            failureRedirect: '/#/login'
-        }));
+        passport.authenticate('weibo', {failureRedirect: '/#!/login'}),
+        function (req, res) {
+            var userId = req.user._id.toString();
+            res.redirect('/#!/user/' + userId);
+        });
 
     app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
     app.get('/auth/google/callback',
-        passport.authenticate('google', {
-            failureRedirect: '/#/login'
-        }));
+        // passport.authenticate('google', {
+        //     failureRedirect: '/#/login'
+        // }));
+        passport.authenticate('google', {failureRedirect: '/#!/login'}),
+        function (req, res) {
+            var userId = req.user._id.toString();
+            res.redirect('/#!/user/' + userId);
+        });
 
     app.post("/api/logout", logout);
     app.get("/api/loggedIn", loggedIn);

@@ -24,6 +24,18 @@
                 controller: 'HeaderController',
                 controllerAs: 'model'
             })
+            .state('header.friend', {
+                url: '^/friend',
+                templateUrl: 'views/friend/friend.view.html',
+                controller: 'FriendController',
+                controllerAs: 'model'
+            })
+            .state('header.notification', {
+                url: '^/notification',
+                templateUrl: 'views/notification/notification.view.html',
+                controller: 'NotificationController',
+                controllerAs: 'model'
+            })
             .state('user', {
                 url: '/user/:userId?category',
                 templateUrl: "views/user/profile.view.client.html",

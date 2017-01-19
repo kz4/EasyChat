@@ -6,7 +6,6 @@
     function NotificationController() {
         var vm = this;
 
-        console.log('NotificationController');
     }
 
 })();

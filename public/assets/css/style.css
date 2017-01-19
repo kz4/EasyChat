@@ -15,6 +15,7 @@ p.navbar-text.pull-left {
     background-color: #e04a32;
     border-color: #e04a32;
 }
+
 .login-btn:hover, .register-btn:hover {
     color: #3d1a1b;
     background-color: #dc143c;
@@ -25,8 +26,21 @@ html, body {
     width: 100%;
     height: 100%;
 }
+
 .header {
     width: 100%;
     height: 56px;
     background-color: lightskyblue;
+}
+
+.header .parts > a {
+    margin-left: 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.header .parts > a:hover {
+    color: dimgray;
 }

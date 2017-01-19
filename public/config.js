@@ -36,8 +36,8 @@
                 controller: 'NotificationController',
                 controllerAs: 'model'
             })
-            .state('user', {
-                url: '/user/:userId?category',
+            .state('header.user', {
+                url: '^/user/:userId?category',
                 templateUrl: "views/user/profile.view.client.html",
                 controller: "ProfileController",
                 controllerAs: "model",
@@ -45,8 +45,8 @@
                     loggedIn: checkLoggedIn
                 }
             })
-            .state('chat', {
-                url: '/chat',
+            .state('header.chat', {
+                url: '^/chat',
                 templateUrl: "views/chat/chat.view.client.html",
                 controller: "ChatController",
                 controllerAs: "model",

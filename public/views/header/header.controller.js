@@ -6,6 +6,9 @@
     function HeaderController() {
         var vm = this;
 
+        vm.logout = function () {
+            console.log('logout');
+        };
     }
 
 })();

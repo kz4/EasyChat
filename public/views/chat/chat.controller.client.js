@@ -1,5 +1,5 @@
 var sock = null;
-if (window.location.hostname === 'localhost') {
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     sock = new SockJS('http://127.0.0.1:3000/views/chat/chat.view.client');
 } else {
     sock = new SockJS('http://easychat-kz4.rhcloud.com:8000/views/chat/chat.view.client');

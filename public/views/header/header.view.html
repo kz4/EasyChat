@@ -1,0 +1,10 @@
+<section class="header" layout="row" layout-align="space-between center">
+    <article>EasyChat</article>
+    <article class="parts" layout="row" layout-align="center center">
+        <a ui-sref="header.user({userId: userId})">profile</a>
+        <a ui-sref="header.friend">friends</a>
+        <a ui-sref="header.notification">notification</a>
+        <a ng-click="model.logout()">logout</a>
+    </article>
+</section>
+<section ui-view></section>

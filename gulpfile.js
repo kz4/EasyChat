@@ -2,10 +2,10 @@ var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var open = require('gulp-open');
 
-// gulp.task('open', function () {
-//     return gulp.src('public/index.html')
-//         .pipe(open({uri: 'http://localhost:3000/#!/'}));
-// });
+gulp.task('open', ['server'], function () {
+    return gulp.src('public/index.html')
+        .pipe(open({uri: 'http://localhost:3000/#!/'}));
+});
 
 gulp.task('server', function () {
     nodemon({
@@ -18,4 +18,4 @@ gulp.task('server', function () {
     });
 });
 
-gulp.task('default', ['server']);
+gulp.task('default', ['open']);
